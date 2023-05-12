@@ -37,7 +37,7 @@ public class Crud {
     }
 
     public static void main(String[] args) {
-
+        listaligada = new ArrayList<Roupas>();
         teclado = new Scanner(System.in);
         while (true) {
             cls();
@@ -84,7 +84,6 @@ public class Crud {
             } catch (Exception ex) {
                 Erro(ex);
             }
-            teclado.nextLine();
         }
     }// main
 
@@ -122,7 +121,7 @@ public class Crud {
             try {
                 preco = Double.parseDouble(xpreco);
             } catch (Exception ex) {
-                preco = 0.00;
+                preco = 1.00;
                 Erro(ex);
             }
             r.setPreco(preco);
@@ -143,7 +142,6 @@ public class Crud {
     }
 
     public static void Listar() {
-        System.out.print("Listar");
     }
 
     public static void Gravartxt() {

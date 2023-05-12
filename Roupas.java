@@ -54,7 +54,7 @@ public class Roupas {
         return this.preco;
     }
 
-    public void info() {
+    public void ToString() {
         System.out.println("ID: " + getId());
         System.out.println("Modelo: " + getModelo());
         System.out.println("Marca: " + getMarca());
