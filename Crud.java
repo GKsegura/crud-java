@@ -149,6 +149,16 @@ public class Crud {
             listaligada.get(i).ToString();
         }
 
+        /*
+         * for(int i = 0 ; i < listaligada.size() ; i++)
+         * {
+         * Roupas r = new Roupas();
+         * r = (Roupas)listaligada.get(i);
+         * System.out.println("Registro: " +i);
+         * r.ToString();
+         * }
+         */
+
         mensagem("Tecle <enter>");
     }
 
