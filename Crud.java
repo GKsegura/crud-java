@@ -100,7 +100,7 @@ public class Crud {
     public static void Incluir() {
         cls();
         System.out.println("==Incluir roupa==");
-        System.out.println("Novo registro - ID =" + CriaID());
+        System.out.println("Novo registro - ID = " + CriaID());
         xmodelo = Digitar("Modelo da roupa: ");
         xmarca = Digitar("Marca da roupa: ");
         xtamanho = Digitar("Tamanho da roupa: ");
@@ -133,22 +133,28 @@ public class Crud {
     }
 
     public static void Alterar() {
-        System.out.print("Alterar");
     }
 
     public static void Excluir() {
-        System.out.print("Excluir");
 
     }
 
     public static void Listar() {
+        if (listaligada.isEmpty()) {
+            mensagem("Lista vazia!");
+            return;
+        }
+
+        for (int i = 0; i < listaligada.size(); i++) {
+            listaligada.get(i).ToString();
+        }
+
+        mensagem("Tecle <enter>");
     }
 
     public static void Gravartxt() {
-        System.out.print("Gravartxt");
     }
 
     public static void Lertxt() {
-        System.out.print("Lertxt");
     }
 }
