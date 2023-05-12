@@ -133,6 +133,7 @@ public class Crud {
     }
 
     public static void Alterar() {
+        System.out.println("Laura linda!");
     }
 
     public static void Excluir() {
