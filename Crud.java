@@ -133,7 +133,54 @@ public class Crud {
     }
 
     public static void Alterar() {
-        System.out.println("Laura linda!");
+        cls();
+        System.out.println("==Alterar roupa==");
+        id_roupa = Integer.parseInt(Digitar("ID da roupa: "));
+        int pos = -1;
+        for (int i = 0; i < listaligada.size(); i++) {
+            Roupas r = new Roupas();
+            r = (Roupas) listaligada.get(i);
+            if (r.getId() == id_roupa) {
+                pos = i;
+                break;
+            }
+        }
+        if (pos == -1) {
+            mensagem("ID não encontrado!");
+            return;
+        }
+        Roupas r = new Roupas();
+        r = (Roupas) listaligada.get(pos);
+        System.out.println("==Dados atuais==");
+        r.ToString();
+        System.out.println("==Novos dados==");
+        xmodelo = Digitar("Modelo da roupa: ");
+        xmarca = Digitar("Marca da roupa: ");
+        xtamanho = Digitar("Tamanho da roupa: ");
+        xpreco = Digitar("Preço da roupa: ");
+        System.out.println("==Dados digitados==");
+        System.out.println("Modelo: " + xmodelo);
+        System.out.println("Marca: " + xmarca);
+        System.out.println("Tamanho: " + xtamanho);
+        System.out.println("Preço: " + xpreco);
+
+        opcao = Digitar("Confima dados digitados(S/N)? ");
+        if (opcao.toUpperCase().equals("S")) {
+            r.setModelo(xmodelo);
+            r.setMarca(xmarca);
+            r.setTamanho(xtamanho);
+            try {
+                preco = Double.parseDouble(xpreco);
+            } catch (Exception ex) {
+                preco = 1.00;
+                Erro(ex);
+            }
+            r.setPreco(preco);
+            listaligada.set(pos, r);
+            mensagem("Alterado com sucesso");
+        } else {
+            mensagem("Alteração cancelada");
+        }
     }
 
     public static void Excluir() {
