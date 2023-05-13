@@ -184,7 +184,34 @@ public class Crud {
     }
 
     public static void Excluir() {
+        cls();
+        System.out.println("==Excluir roupa==");
+        id_roupa = Integer.parseInt(Digitar("ID da roupa: "));
+        int pos = -1;
+        for (int i = 0; i < listaligada.size(); i++) {
+            Roupas r = new Roupas();
+            r = (Roupas) listaligada.get(i);
+            if (r.getId() == id_roupa) {
+                pos = i;
+                break;
+            }
+        }
+        if (pos == -1) {
+            mensagem("ID não encontrado!");
+            return;
+        }
+        Roupas r = new Roupas();
+        r = (Roupas) listaligada.get(pos);
+        System.out.println("==Dados atuais==");
+        r.ToString();
 
+        opcao = Digitar("Confima exclusão(S/N)? ");
+        if (opcao.toUpperCase().equals("S")) {
+            listaligada.remove(pos);
+            mensagem("Excluído com sucesso");
+        } else {
+            mensagem("Exclusão cancelada");
+        }
     }
 
     public static void Listar() {
@@ -193,8 +220,11 @@ public class Crud {
             return;
         }
 
+        System.out.println("===============");
+
         for (int i = 0; i < listaligada.size(); i++) {
             listaligada.get(i).ToString();
+            System.out.println("===============");
         }
 
         /*
