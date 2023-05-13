@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Crud {
@@ -126,9 +130,9 @@ public class Crud {
             }
             r.setPreco(preco);
             listaligada.add(r);
-            mensagem("Cadastrado com sucesso");
+            mensagem("Cadastrado com sucesso!");
         } else {
-            mensagem("Cadastro cancelado");
+            mensagem("Cadastro cancelado!");
         }
     }
 
@@ -177,9 +181,9 @@ public class Crud {
             }
             r.setPreco(preco);
             listaligada.set(pos, r);
-            mensagem("Alterado com sucesso");
+            mensagem("Alterado com sucesso!");
         } else {
-            mensagem("Alteração cancelada");
+            mensagem("Alteração cancelada!");
         }
     }
 
@@ -208,9 +212,9 @@ public class Crud {
         opcao = Digitar("Confima exclusão(S/N)? ");
         if (opcao.toUpperCase().equals("S")) {
             listaligada.remove(pos);
-            mensagem("Excluído com sucesso");
+            mensagem("Excluído com sucesso!");
         } else {
-            mensagem("Exclusão cancelada");
+            mensagem("Exclusão cancelada!");
         }
     }
 
@@ -241,8 +245,50 @@ public class Crud {
     }
 
     public static void Gravartxt() {
+        try {
+            FileWriter arq = new FileWriter("roupas.txt");
+            PrintWriter gravarArq = new PrintWriter(arq);
+            for (int i = 0; i < listaligada.size(); i++) {
+                Roupas r = new Roupas();
+                r = (Roupas) listaligada.get(i);
+                gravarArq.println(r.getId());
+                gravarArq.println(r.getModelo());
+                gravarArq.println(r.getMarca());
+                gravarArq.println(r.getTamanho());
+                gravarArq.println(r.getPreco());
+            }
+            arq.close();
+            gravarArq.close();
+            mensagem("Arquivo gravado com sucesso!");
+        } catch (Exception ex) {
+            Erro(ex);
+        }
     }
 
     public static void Lertxt() {
+        try {
+            FileReader arq = new FileReader("roupas.txt");
+            BufferedReader lerArq = new BufferedReader(arq);
+            String linha = lerArq.readLine();
+            while (linha != null) {
+                Roupas r = new Roupas();
+                r.setId(Integer.parseInt(linha));
+                linha = lerArq.readLine();
+                r.setModelo(linha);
+                linha = lerArq.readLine();
+                r.setMarca(linha);
+                linha = lerArq.readLine();
+                r.setTamanho(linha);
+                linha = lerArq.readLine();
+                r.setPreco(Double.parseDouble(linha));
+                linha = lerArq.readLine();
+                listaligada.add(r);
+            }
+            arq.close();
+            lerArq.close();
+            mensagem("Arquivo lido com sucesso!");
+        } catch (Exception ex) {
+            Erro(ex);
+        }
     }
 }
