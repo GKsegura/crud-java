@@ -1,0 +1,50 @@
+1;Calca;Nike;G;149.9
+2;Bermuda;Nike;G;149.9
+3;Camiseta;Adidas;M;79.9
+4;Vestido;Zara;P;199.9
+5;Blazer;H&M;M;129.9
+6;Moletom;Nike;G;199.9
+7;Shorts;Forever 21;P;59.9
+8;Jaqueta;Adidas;G;299.9
+9;Blusa;H&M;P;49.9
+10;Macacão;Zara;M;159.9
+11;Calça;Puma;M;89.9
+12;Bermuda;Adidas;G;99.9
+13;Camiseta;Hollister;M;69.9
+14;Vestido;Forever 21;P;79.9
+15;Blazer;Zara;G;169.9
+16;Moletom;Puma;M;129.9
+17;Shorts;Nike;P;49.9
+18;Jaqueta;H&M;G;99.9
+19;Blusa;Forever 21;P;39.9
+20;Macacão;H&M;M;129.9
+21;Calça;Zara;G;119.9
+22;Bermuda;Puma;M;69.9
+23;Camiseta;Nike;P;59.9
+24;Vestido;H&M;P;99.9
+25;Blazer;Forever 21;G;89.9
+26;Moletom;Adidas;M;149.9
+27;Shorts;Zara;P;69.9
+28;Jaqueta;Nike;G;199.9
+29;Blusa;Puma;P;59.9
+30;Macacão;Forever 21;M;139.9
+31;Calça;H&M;G;79.9
+32;Bermuda;Zara;M;79.9
+33;Camiseta;Forever 21;M;49.9
+34;Vestido;Adidas;P;119.9
+35;Blazer;Nike;G;179.9
+36;Moletom;Zara;M;99.9
+37;Shorts;Puma;P;39.9
+38;Jaqueta;Forever 21;G;129.9
+39;Blusa;Nike;P;69.9
+40;Macacão;H&M;M;119.9
+41;Calça;Forever 21;G;89.9
+42;Bermuda;Adidas;M;89.9
+43;Camiseta;Zara;P;59.9
+44;Vestido;Puma;P;109.9
+45;Blazer;Forever 21;G;99.9
+46;Moletom;H&M;M;119.9
+47;Shorts;Nike;P;49.9
+48;Jaqueta;Zara;G;159.9
+49;Blusa;Adidas;P;79.9
+50;Macacão;Forever 21;M;149.9

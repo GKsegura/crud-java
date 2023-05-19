@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Crud {
@@ -48,10 +52,11 @@ public class Crud {
             System.out.println("<2> Alterar roupas");
             System.out.println("<3> Excluir roupas");
             System.out.println("<4> Listar roupas");
-            System.out.println("<5> Gravar arquivo.txt");
-            System.out.println("<6> Ler arquivo.txt");
-            System.out.println("<7> Fim opcoes");
-            opcao = Digitar("Qual opção(1-7): ");
+            System.out.println("<5> Listar roupas em linha");
+            System.out.println("<6> Gravar arquivo txt");
+            System.out.println("<7> Ler arquivo txt");
+            System.out.println("<8> Sair");
+            opcao = Digitar("Qual opção(1-8): ");
 
             try {
                 int op = Integer.parseInt(opcao);
@@ -70,12 +75,16 @@ public class Crud {
                         Listar();
                         break;
                     case 5:
-                        Gravartxt();
+                        ListarEmLinha();
+                        mensagem("Pressione <enter>...");
                         break;
                     case 6:
-                        Lertxt();
+                        Gravartxt();
                         break;
                     case 7:
+                        Lertxt();
+                        break;
+                    case 8:
                         System.exit(0);
                     default:
                         Erro("Valor inválido! Pressione qualquer tecla...");
@@ -121,7 +130,6 @@ public class Crud {
             try {
                 preco = Double.parseDouble(xpreco);
             } catch (Exception ex) {
-                preco = 1.00;
                 Erro(ex);
             }
             r.setPreco(preco);
@@ -133,11 +141,63 @@ public class Crud {
     }
 
     public static void Alterar() {
-
+        cls();
+        System.out.println("==Alterar roupa==");
+        ListarEmLinha();
+        int ultimo = listaligada.size() - 1;
+        opcao = Digitar("\nQual regitro deseja alterar? (0-" + ultimo + ")?");
+        try {
+            int registro = Integer.parseInt(opcao);
+            if (registro >= 0 && registro <= ultimo) {
+                AlterandoDados(registro);
+                mensagem("Alterado com sucesso!");
+            } else
+                throw new Exception();
+        } catch (Exception ex) {
+            System.out.println("Registro não encontrado!");
+        }
     }
 
     public static void AlterandoDados(int pos) {
-
+        Roupas r = (Roupas) listaligada.get(pos);
+        cls();
+        System.out.println("==Alterarando de roupa==");
+        System.out.println("Registro:... " + pos);
+        System.out.println("ID:......... " + r.getId());
+        System.out.println("<1> Modelo:. " + r.getModelo());
+        System.out.println("<2> Marca:.. " + r.getMarca());
+        System.out.println("<3> Tamanho: " + r.getTamanho());
+        System.out.println("<4> Preço:.. " + r.getPreco());
+        System.out.println("<5> Fim opcoes");
+        opcao = Digitar("Qual opção(1-5): ");
+        try {
+            int op = Integer.parseInt(opcao);
+            switch (op) {
+                case 1:
+                    r.setModelo(Digitar("Digite o novo modelo: "));
+                    break;
+                case 2:
+                    r.setMarca(Digitar("Digite a nova marca: "));
+                    break;
+                case 3:
+                    r.setTamanho("Digite o novo tamanho: ");
+                    break;
+                case 4:
+                    xpreco = Digitar("Digite o novo preco: ");
+                    try {
+                        preco = Double.parseDouble(xpreco);
+                    } catch (Exception ex) {
+                        mensagem("Preco inválido!");
+                    }
+                    break;
+                case 5:
+                    return;
+                default:
+                    Erro("Valor inválido! Pressione qualquer tecla...");
+            }
+        } catch (Exception ex) {
+            Erro(ex);
+        }
     }
 
     public static void Excluir() {
@@ -145,12 +205,13 @@ public class Crud {
         System.out.println("==Excluir roupa==");
         ListarEmLinha();
         int ultimo = listaligada.size() - 1;
-        opcao = Digitar("Qual regitro deseja exlcuir? (0-" + ultimo + ")?");
+        opcao = Digitar("\nQual regitro deseja excluir? (0-" + ultimo + ")?");
         try {
             int registro = Integer.parseInt(opcao);
             if (registro >= 0 && registro <= ultimo) {
                 listaligada.remove(registro);
                 mensagem("O registro " + registro + "foi excluido com sucesso!");
+                return;
             } else
                 throw new Exception();
         } catch (Exception ex) {
@@ -173,7 +234,7 @@ public class Crud {
             r.ToString();
             System.out.println("===============");
         }
-        mensagem("Tecle <enter>");
+        mensagem("Tecle <enter>...");
     }
 
     public static void ListarEmLinha() {
@@ -186,15 +247,57 @@ public class Crud {
         for (int i = 0; i < listaligada.size(); i++) {
             Roupas r = new Roupas();
             r = (Roupas) listaligada.get(i);
-            System.out.print("\n" + i + "\t");
+            System.out.print("\n" + i + "\t\t");
             r.emLinha();
         }
-        mensagem("\nTecle <enter>");
     }
 
     public static void Gravartxt() {
+        cls();
+        System.out.println("==Gravar txt==");
+        if (listaligada.isEmpty()) {
+            mensagem("Lista vazia!");
+            return;
+        }
+        try {
+            FileWriter arq = new FileWriter("roupas.txt");
+            PrintWriter gravarArq = new PrintWriter(arq);
+            for (int i = 0; i < listaligada.size(); i++) {
+                Roupas r = new Roupas();
+                r = (Roupas) listaligada.get(i);
+                gravarArq.println(r.getId() + ";" + r.getModelo() + ";" + r.getMarca() + ";" + r.getTamanho() + ";"
+                        + r.getPreco());
+            }
+            arq.close();
+            mensagem("Gravado com sucesso!");
+        } catch (Exception ex) {
+            Erro(ex);
+        }
     }
 
     public static void Lertxt() {
+        cls();
+        System.out.println("==Ler txt==");
+        try {
+            FileReader arq = new FileReader("roupas.txt");
+            BufferedReader lerArq = new BufferedReader(arq);
+            String linha = lerArq.readLine();
+            while (linha != null) {
+                String[] dados = linha.split(";");
+                Roupas r = new Roupas();
+                r.setId(Integer.parseInt(dados[0]));
+                r.setModelo(dados[1]);
+                r.setMarca(dados[2]);
+                r.setTamanho(dados[3]);
+                r.setPreco(Double.parseDouble(dados[4]));
+                listaligada.add(r);
+                linha = lerArq.readLine();
+            }
+            lerArq.close();
+            arq.close();
+            mensagem("Lido com sucesso!");
+        } catch (Exception ex) {
+            Erro(ex);
+        }
     }
 }
