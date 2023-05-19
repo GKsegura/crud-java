@@ -61,4 +61,12 @@ public class Roupas {
         System.out.println("Tamanho: " + getTamanho());
         System.out.println("Preço: " + getPreco());
     }
+
+    public void emLinha() {
+        System.out.print(getId() + "\t");
+        System.out.print(getModelo() + "\t");
+        System.out.print(getMarca() + "\t");
+        System.out.print(getTamanho() + "\t");
+        System.out.print(getPreco() + "\t");
+    }
 }// Class

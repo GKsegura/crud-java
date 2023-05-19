@@ -1,8 +1,4 @@
 import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Crud {
@@ -139,156 +135,118 @@ public class Crud {
     public static void Alterar() {
         cls();
         System.out.println("==Alterar roupa==");
-        id_roupa = Integer.parseInt(Digitar("ID da roupa: "));
-        int pos = -1;
-        for (int i = 0; i < listaligada.size(); i++) {
-            Roupas r = new Roupas();
-            r = (Roupas) listaligada.get(i);
-            if (r.getId() == id_roupa) {
-                pos = i;
-                break;
-            }
-        }
-        if (pos == -1) {
-            mensagem("ID não encontrado!");
-            return;
-        }
-        Roupas r = new Roupas();
-        r = (Roupas) listaligada.get(pos);
-        System.out.println("==Dados atuais==");
-        r.ToString();
-        System.out.println("==Novos dados==");
-        xmodelo = Digitar("Modelo da roupa: ");
-        xmarca = Digitar("Marca da roupa: ");
-        xtamanho = Digitar("Tamanho da roupa: ");
-        xpreco = Digitar("Preço da roupa: ");
-        System.out.println("==Dados digitados==");
-        System.out.println("Modelo: " + xmodelo);
-        System.out.println("Marca: " + xmarca);
-        System.out.println("Tamanho: " + xtamanho);
-        System.out.println("Preço: " + xpreco);
+        ListarEmLinha();
+        int ultimo = listaligada.size() - 1;
+        opcao = Digitar("Qual regitro deseja alterar? (0-" + ultimo + ")?");
+        try {
+            int registro = Integer.parseInt(opcao);
+            if (registro >= 0 && registro <= ultimo) {
+                Roupas r = new Roupas();
+                r = (Roupas) listaligada.get(registro);
+                while (true) {
+                    cls();
+                    System.out.println("==Dados atuais==");
+                    r.ToString();
+                    System.out.println("O que deseja alterar?");
+                    System.out.println("<1> Modelo");
+                    System.out.println("<2> Marca");
+                    System.out.println("<3> Tamanho");
+                    System.out.println("<4> Preco");
+                    System.out.println("<5> Fim opcoes");
+                    opcao = Digitar("Qual opção(1-1): ");
 
-        opcao = Digitar("Confima dados digitados(S/N)? ");
-        if (opcao.toUpperCase().equals("S")) {
-            r.setModelo(xmodelo);
-            r.setMarca(xmarca);
-            r.setTamanho(xtamanho);
-            try {
-                preco = Double.parseDouble(xpreco);
-            } catch (Exception ex) {
-                preco = 1.00;
-                Erro(ex);
+                    try {
+                        int op = Integer.parseInt(opcao);
+
+                        switch (op) {
+                            case 1:
+                                Incluir();
+                                break;
+                            case 2:
+                                Alterar();
+                                break;
+                            case 3:
+                                Excluir();
+                                break;
+                            case 4:
+                                Listar();
+                                break;
+                            case 5:
+                                Gravartxt();
+                                break;
+                            case 6:
+                                Lertxt();
+                                break;
+                            case 7:
+                                return;
+                            default:
+                                Erro("Valor inválido! Pressione qualquer tecla...");
+                        }
+
+                    } catch (Exception ex) {
+                        Erro(ex);
+                    }
+                }
             }
-            r.setPreco(preco);
-            listaligada.set(pos, r);
-            mensagem("Alterado com sucesso!");
-        } else {
-            mensagem("Alteração cancelada!");
+        } catch (Exception ex) {
+            Erro(ex);
         }
     }
 
     public static void Excluir() {
         cls();
         System.out.println("==Excluir roupa==");
-        id_roupa = Integer.parseInt(Digitar("ID da roupa: "));
-        int pos = -1;
-        for (int i = 0; i < listaligada.size(); i++) {
-            Roupas r = new Roupas();
-            r = (Roupas) listaligada.get(i);
-            if (r.getId() == id_roupa) {
-                pos = i;
-                break;
+        ListarEmLinha();
+        int ultimo = listaligada.size() - 1;
+        opcao = Digitar("Qual regitro deseja exlcuir? (0-" + ultimo + ")?");
+        try {
+            int registro = Integer.parseInt(opcao);
+            if (registro >= 0 && registro <= ultimo) {
+                listaligada.remove(registro);
+                mensagem("O registro " + registro + "foi excluido com sucesso!");
             }
-        }
-        if (pos == -1) {
-            mensagem("ID não encontrado!");
-            return;
-        }
-        Roupas r = new Roupas();
-        r = (Roupas) listaligada.get(pos);
-        System.out.println("==Dados atuais==");
-        r.ToString();
-
-        opcao = Digitar("Confima exclusão(S/N)? ");
-        if (opcao.toUpperCase().equals("S")) {
-            listaligada.remove(pos);
-            mensagem("Excluído com sucesso!");
-        } else {
-            mensagem("Exclusão cancelada!");
+        } catch (Exception ex) {
+            System.out.println("Registro não encontrado!");
         }
     }
 
     public static void Listar() {
+        cls();
+        if (listaligada.isEmpty()) {
+            mensagem("Lista vazia!");
+            return;
+        }
+        System.out.println("===============");
+
+        for (int i = 0; i < listaligada.size(); i++) {
+            Roupas r = new Roupas();
+            r = (Roupas) listaligada.get(i);
+            System.out.println("Registro: " + i);
+            r.ToString();
+            System.out.println("===============");
+        }
+        mensagem("Tecle <enter>");
+    }
+
+    public static void ListarEmLinha() {
         if (listaligada.isEmpty()) {
             mensagem("Lista vazia!");
             return;
         }
 
-        System.out.println("===============");
-
+        System.out.println("Registro\tId\tModelo\tMarca\tTamanho\tPreco");
         for (int i = 0; i < listaligada.size(); i++) {
-            listaligada.get(i).ToString();
-            System.out.println("===============");
+            Roupas r = new Roupas();
+            r = (Roupas) listaligada.get(i);
+            System.out.print("\n" + i + "\t");
+            r.emLinha();
         }
-
-        /*
-         * for(int i = 0 ; i < listaligada.size() ; i++)
-         * {
-         * Roupas r = new Roupas();
-         * r = (Roupas)listaligada.get(i);
-         * System.out.println("Registro: " +i);
-         * r.ToString();
-         * }
-         */
-
-        mensagem("Tecle <enter>");
+        mensagem("\nTecle <enter>");
     }
 
     public static void Gravartxt() {
-        try {
-            FileWriter arq = new FileWriter("roupas.txt");
-            PrintWriter gravarArq = new PrintWriter(arq);
-            for (int i = 0; i < listaligada.size(); i++) {
-                Roupas r = new Roupas();
-                r = (Roupas) listaligada.get(i);
-                gravarArq.println(r.getId());
-                gravarArq.println(r.getModelo());
-                gravarArq.println(r.getMarca());
-                gravarArq.println(r.getTamanho());
-                gravarArq.println(r.getPreco());
-            }
-            arq.close();
-            gravarArq.close();
-            mensagem("Arquivo gravado com sucesso!");
-        } catch (Exception ex) {
-            Erro(ex);
-        }
     }
 
     public static void Lertxt() {
-        try {
-            FileReader arq = new FileReader("roupas.txt");
-            BufferedReader lerArq = new BufferedReader(arq);
-            String linha = lerArq.readLine();
-            while (linha != null) {
-                Roupas r = new Roupas();
-                r.setId(Integer.parseInt(linha));
-                linha = lerArq.readLine();
-                r.setModelo(linha);
-                linha = lerArq.readLine();
-                r.setMarca(linha);
-                linha = lerArq.readLine();
-                r.setTamanho(linha);
-                linha = lerArq.readLine();
-                r.setPreco(Double.parseDouble(linha));
-                linha = lerArq.readLine();
-                listaligada.add(r);
-            }
-            arq.close();
-            lerArq.close();
-            mensagem("Arquivo lido com sucesso!");
-        } catch (Exception ex) {
-            Erro(ex);
-        }
     }
 }
