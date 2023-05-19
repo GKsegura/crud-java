@@ -133,64 +133,11 @@ public class Crud {
     }
 
     public static void Alterar() {
-        cls();
-        System.out.println("==Alterar roupa==");
-        ListarEmLinha();
-        int ultimo = listaligada.size() - 1;
-        opcao = Digitar("Qual regitro deseja alterar? (0-" + ultimo + ")?");
-        try {
-            int registro = Integer.parseInt(opcao);
-            if (registro >= 0 && registro <= ultimo) {
-                Roupas r = new Roupas();
-                r = (Roupas) listaligada.get(registro);
-                while (true) {
-                    cls();
-                    System.out.println("==Dados atuais==");
-                    r.ToString();
-                    System.out.println("O que deseja alterar?");
-                    System.out.println("<1> Modelo");
-                    System.out.println("<2> Marca");
-                    System.out.println("<3> Tamanho");
-                    System.out.println("<4> Preco");
-                    System.out.println("<5> Fim opcoes");
-                    opcao = Digitar("Qual opção(1-1): ");
 
-                    try {
-                        int op = Integer.parseInt(opcao);
+    }
 
-                        switch (op) {
-                            case 1:
-                                Incluir();
-                                break;
-                            case 2:
-                                Alterar();
-                                break;
-                            case 3:
-                                Excluir();
-                                break;
-                            case 4:
-                                Listar();
-                                break;
-                            case 5:
-                                Gravartxt();
-                                break;
-                            case 6:
-                                Lertxt();
-                                break;
-                            case 7:
-                                return;
-                            default:
-                                Erro("Valor inválido! Pressione qualquer tecla...");
-                        }
+    public static void AlterandoDados(int pos) {
 
-                    } catch (Exception ex) {
-                        Erro(ex);
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            Erro(ex);
-        }
     }
 
     public static void Excluir() {
@@ -204,7 +151,8 @@ public class Crud {
             if (registro >= 0 && registro <= ultimo) {
                 listaligada.remove(registro);
                 mensagem("O registro " + registro + "foi excluido com sucesso!");
-            }
+            } else
+                throw new Exception();
         } catch (Exception ex) {
             System.out.println("Registro não encontrado!");
         }
