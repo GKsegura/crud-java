@@ -1,8 +1,7 @@
 import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Formatter;
 import java.util.ArrayList;
 
 public class Crud {
@@ -10,7 +9,7 @@ public class Crud {
     public static Scanner teclado;
     public static ArrayList<Roupas> listaligada;
 
-    public static String xmodelo, xmarca, xtamanho, xpreco;
+    public static String xid, xmodelo, xmarca, xtamanho, xpreco;
     public static int id_roupa;
     public static double preco;
 
@@ -43,11 +42,13 @@ public class Crud {
     public static void main(String[] args) {
         listaligada = new ArrayList<Roupas>();
         teclado = new Scanner(System.in);
+        Lertxt();
         while (true) {
             cls();
             System.out.println("==========================================");
             System.out.println(" Roupas - Create / Read / Update / Delete");
             System.out.println("==========================================");
+            System.out.println("Quantidade de roupas cadastradas: " + listaligada.size());
             System.out.println("<1> Adicionar roupas");
             System.out.println("<2> Alterar roupas");
             System.out.println("<3> Excluir roupas");
@@ -134,6 +135,7 @@ public class Crud {
             }
             r.setPreco(preco);
             listaligada.add(r);
+            Gravartxt();
             mensagem("Cadastrado com sucesso!");
         } else {
             mensagem("Cadastro cancelado!");
@@ -150,6 +152,7 @@ public class Crud {
             int registro = Integer.parseInt(opcao);
             if (registro >= 0 && registro <= ultimo) {
                 AlterandoDados(registro);
+                Gravartxt();
                 mensagem("Alterado com sucesso!");
             } else
                 throw new Exception();
@@ -211,6 +214,7 @@ public class Crud {
             if (registro >= 0 && registro <= ultimo) {
                 listaligada.remove(registro);
                 mensagem("O registro " + registro + "foi excluido com sucesso!");
+                Gravartxt();
                 return;
             } else
                 throw new Exception();
@@ -253,51 +257,64 @@ public class Crud {
     }
 
     public static void Gravartxt() {
-        cls();
-        System.out.println("==Gravar txt==");
-        if (listaligada.isEmpty()) {
-            mensagem("Lista vazia!");
-            return;
-        }
         try {
-            FileWriter arq = new FileWriter("roupas.txt");
-            PrintWriter gravarArq = new PrintWriter(arq);
-            for (int i = 0; i < listaligada.size(); i++) {
-                Roupas r = new Roupas();
-                r = (Roupas) listaligada.get(i);
-                gravarArq.println(r.getId() + ";" + r.getModelo() + ";" + r.getMarca() + ";" + r.getTamanho() + ";"
-                        + r.getPreco());
+            if (listaligada.isEmpty()) {
+                mensagem("A lista está vazia!");
+                return;
             }
-            arq.close();
-            mensagem("Gravado com sucesso!");
-        } catch (Exception ex) {
-            Erro(ex);
+            Roupas r = new Roupas();
+            Formatter arquivo = new Formatter("Roupas.txt");
+            for (int i = 0; i < listaligada.size(); i++) {
+                r = (Roupas) listaligada.get(i);
+                xid = "" + r.getId();
+                xmodelo = r.getModelo();
+                xmarca = r.getMarca();
+                xtamanho = r.getTamanho();
+                xpreco = "" + r.getPreco();
+                arquivo.format("%s,%s,%s,%s,%s\n",
+                        xid, xmodelo, xmarca, xtamanho, xpreco);
+            } // for
+            arquivo.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Erro na gravacao: " + e);
         }
     }
 
     public static void Lertxt() {
-        cls();
-        System.out.println("==Ler txt==");
         try {
-            FileReader arq = new FileReader("roupas.txt");
-            BufferedReader lerArq = new BufferedReader(arq);
-            String linha = lerArq.readLine();
-            while (linha != null) {
-                String[] dados = linha.split(";");
-                Roupas r = new Roupas();
-                r.setId(Integer.parseInt(dados[0]));
-                r.setModelo(dados[1]);
-                r.setMarca(dados[2]);
-                r.setTamanho(dados[3]);
-                r.setPreco(Double.parseDouble(dados[4]));
-                listaligada.add(r);
-                linha = lerArq.readLine();
+            File arquivo = new File("Rodas.txt");
+            if (!arquivo.exists()) {
+                System.out.println("Arquivo nao existe!");
+                teclado.close();
+                return;
             }
-            lerArq.close();
-            arq.close();
-            mensagem("Lido com sucesso!");
-        } catch (Exception ex) {
-            Erro(ex);
+            Scanner sc = new Scanner(arquivo);
+            sc.useDelimiter("\\s*,\\s*");
+            while (sc.hasNext()) {
+                xid = sc.next();
+                xmodelo = sc.next();
+                xmarca = sc.next();
+                xtamanho = sc.next();
+                xpreco = sc.next();
+                Roupas r = new Roupas();
+                r.setId(Integer.parseInt(xid));
+                r.setModelo(xmodelo);
+                r.setMarca(xmarca);
+                r.setTamanho(xtamanho);
+                try {
+                    preco = Double.parseDouble(xpreco);
+                } catch (Exception ex) {
+                    Erro(ex);
+                }
+                r.setPreco(preco);
+                listaligada.add(r);
+                System.out.println("lendo=" + sc.next());
+                teclado.nextLine();
+            } /// while
+            sc.close();
+        } catch (FileNotFoundException e) {
+            mensagem("Erro na leitura: " + e);
         }
+        teclado.close();
     }
 }
