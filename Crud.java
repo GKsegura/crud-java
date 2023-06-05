@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Formatter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Formatter;
-import java.util.ArrayList;
 
 public class Crud {
     public static String opcao;
@@ -56,7 +57,8 @@ public class Crud {
             System.out.println("<5> Listar roupas em linha");
             System.out.println("<6> Gravar arquivo txt");
             System.out.println("<7> Ler arquivo txt");
-            System.out.println("<8> Sair");
+            System.out.println("<8> Classificar modelo");
+            System.out.println("<9> Classificar ");
             opcao = Digitar("Qual opção(1-8): ");
 
             try {
@@ -90,7 +92,6 @@ public class Crud {
                     default:
                         Erro("Valor inválido! Pressione qualquer tecla...");
                 }
-
             } catch (Exception ex) {
                 Erro(ex);
             }
@@ -189,6 +190,7 @@ public class Crud {
                     xpreco = Digitar("Digite o novo preco: ");
                     try {
                         preco = Double.parseDouble(xpreco);
+                        r.setPreco(preco);
                     } catch (Exception ex) {
                         mensagem("Preco inválido!");
                     }
@@ -270,7 +272,7 @@ public class Crud {
                 xmodelo = r.getModelo();
                 xmarca = r.getMarca();
                 xtamanho = r.getTamanho();
-                xpreco = "" + r.getPreco();
+                xpreco = String.valueOf(r.getPreco());
                 arquivo.format("%s,%s,%s,%s,%s\n",
                         xid, xmodelo, xmarca, xtamanho, xpreco);
             } // for
@@ -281,15 +283,15 @@ public class Crud {
     }
 
     public static void Lertxt() {
+        cls();
         try {
-            File arquivo = new File("Rodas.txt");
+            File arquivo = new File("Roupas.txt");
             if (!arquivo.exists()) {
-                System.out.println("Arquivo nao existe!");
-                teclado.close();
+                System.out.println("Arquivo não existe!");
                 return;
             }
             Scanner sc = new Scanner(arquivo);
-            sc.useDelimiter("\\s*,\\s*");
+            sc.useDelimiter("\\s*,\\s*|\\R");
             while (sc.hasNext()) {
                 xid = sc.next();
                 xmodelo = sc.next();
@@ -308,13 +310,94 @@ public class Crud {
                 }
                 r.setPreco(preco);
                 listaligada.add(r);
-                System.out.println("lendo=" + sc.next());
-                teclado.nextLine();
+                System.out
+                        .println("Lendo: '" + xid + " " + xmodelo + " " + xmarca + " " + xtamanho + " " + xpreco + "'");
             } /// while
+            mensagem("Pressione <enter>...");
             sc.close();
         } catch (FileNotFoundException e) {
             mensagem("Erro na leitura: " + e);
         }
-        teclado.close();
+    }
+
+    public static void Classifica() {
+        cls();
+        ListarEmLinha();
+        Collections.sort(listaligada);
+        ListarEmLinha();
+        Lertxt();
+    }
+
+    public static void OpcaoClass() {
+        cls();
+        if (listaligada.isEmpty()) {
+            mensagem("Lista vazia!");
+            return;
+        }
+        System.out.println("==Classificar roupa==");
+        System.out.println("<1> Por marca");
+        System.out.println("<2> Por tamanho");
+        opcao = Digitar("Qual opcao(1-2)?");
+
+        try {
+            int op = Integer.parseInt(opcao);
+            switch (op) {
+                case 1:
+                    Collections.sort(listaligada, new MarcaComparator());
+                    break;
+                case 2:
+                    Collections.sort(listaligada, new TamanhoComparator());
+                    break;
+                default:
+                    Erro("Valor inválido! Pressione qualquer tecla...");
+            }
+        } catch (Exception ex) {
+            Erro(ex);
+        }
+        ListarEmLinha();
+        Lertxt();
+    }
+
+    public static void Procurar() {
+        cls();
+        if (listaligada.isEmpty()) {
+            mensagem("Lista vazia!");
+            return;
+        }
+        System.out.println("==Procurar roupa==");
+        opcao = Digitar("Digite o valor que você procura: ");
+        int cont;
+        System.out.println("== Listando Roupas ==");
+        System.out.println("Registro\tID\tModelo\tMarca\tTamanho\tPreco");
+        Roupas r = new Roupas();
+        for (int i = 0; i < listaligada.size(); i++) {
+            r = (Roupas) listaligada.get(i);
+            xmodelo = r.getModelo();
+            xmarca = r.getMarca();
+            xtamanho = r.getTamanho();
+            xpreco = String.valueOf(r.getPreco());
+            cont = 0;
+            if (xmodelo.contains(opcao)) {
+                cont = 1;
+            }
+            if (xmarca.contains(opcao)) {
+                cont = 1;
+            }
+            if (xtamanho.contains(opcao)) {
+                cont = 1;
+            }
+            if (xpreco.contains(opcao)) {
+                cont = 1;
+            }
+            if (cont == 1) {
+                System.out.print(i);
+                System.out.print("\t" + r.getId());
+                System.out.print("\t" + r.getModelo());
+                System.out.print("\t" + r.getMarca());
+                System.out.print("\t" + r.getTamanho());
+                System.out.println("\t" + r.getPreco());
+            }
+        }
+        mensagem("Tecle <enter>");
     }
 }

@@ -1,10 +1,13 @@
-//Roupas.java
-public class Roupas {
+public class Roupas implements Comparable<Roupas> {
     private int id_roupa;
     private String modelo;
     private String marca;
     private String tamanho;
     private double preco;
+
+    public int compareTo(Roupas outra) {
+        return this.getModelo().compareTo(outra.getModelo());
+    }
 
     Roupas() {
         setId(0);
