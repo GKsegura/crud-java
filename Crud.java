@@ -1,7 +1,4 @@
 import java.util.Scanner;
-
-import javax.swing.text.AbstractDocument.BranchElement;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Formatter;
@@ -39,7 +36,7 @@ public class Crud {
     }
 
     public static void Erro(Exception ex) {
-        System.out.print(ex);
+        System.out.print(ex.getMessage());
         teclado.nextLine();
     }
 
@@ -197,7 +194,7 @@ public class Crud {
                     r.setMarca(Digitar("Digite a nova marca: "));
                     break;
                 case 3:
-                    r.setTamanho("Digite o novo tamanho: ");
+                    r.setTamanho(Digitar("Digite o novo tamanho: "));
                     break;
                 case 4:
                     xpreco = Digitar("Digite o novo preco: ");
@@ -344,29 +341,37 @@ public class Crud {
     public static void OpcaoClass() {
         cls();
         if (listaligada.isEmpty()) {
-            mensagem("Lista vazia!");
+            mensagem("Lista Vazia");
             return;
         }
-        System.out.println("==Classificar roupa==");
-        System.out.println("<1> Por marca");
-        System.out.println("<2> Por tamanho");
-        opcao = Digitar("Qual opcao(1-2)?");
+        System.out.println("==Classificar por opcao==");
+        System.out.println("<1> Marca");
+        System.out.println("<2> Tamanho");
+        System.out.println("<3> Preco");
+        System.out.println("<4> Sair");
+        opcao = Digitar("Qual opção(1 -2)?");
 
         try {
             int op = Integer.parseInt(opcao);
             switch (op) {
                 case 1:
-                    Collections.sort(listaligada, new MarcaComparator());
+                    Collections.sort(listaligada, new marcaCompara());
                     break;
                 case 2:
-                    Collections.sort(listaligada, new TamanhoComparator());
+                    Collections.sort(listaligada, new tamanhoCompara());
                     break;
+                case 3:
+                    Collections.sort(listaligada, new precoCompara());
+                    break;
+                case 4:
+                    return;
                 default:
-                    Erro("Valor inválido! Pressione qualquer tecla...");
+                    Erro("Valor inválido. Pressione qualquer tecla...");
             }
         } catch (Exception ex) {
             Erro(ex);
         }
+
         ListarEmLinha();
         Lertxt();
     }
