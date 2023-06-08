@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.swing.text.AbstractDocument.BranchElement;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Formatter;
@@ -57,13 +60,14 @@ public class Crud {
             System.out.println("<5> Listar roupas em linha");
             System.out.println("<6> Gravar arquivo txt");
             System.out.println("<7> Ler arquivo txt");
-            System.out.println("<8> Classificar modelo");
-            System.out.println("<9> Classificar ");
-            opcao = Digitar("Qual opção(1-8): ");
+            System.out.println("<8> Classificar por modelo");
+            System.out.println("<9> Classificar por opcoes");
+            System.out.println("<10> Procurar dados");
+            System.out.println("<11> FIm opcoes");
+            opcao = Digitar("Qual opção(1-11): ");
 
             try {
                 int op = Integer.parseInt(opcao);
-
                 switch (op) {
                     case 1:
                         Incluir();
@@ -88,6 +92,15 @@ public class Crud {
                         Lertxt();
                         break;
                     case 8:
+                        Classifica();
+                        break;
+                    case 9:
+                        OpcaoClass();
+                        break;
+                    case 10:
+                        Procurar();
+                        break;
+                    case 11:
                         System.exit(0);
                     default:
                         Erro("Valor inválido! Pressione qualquer tecla...");

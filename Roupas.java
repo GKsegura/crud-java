@@ -5,8 +5,8 @@ public class Roupas implements Comparable<Roupas> {
     private String tamanho;
     private double preco;
 
-    public int compareTo(Roupas outra) {
-        return this.getModelo().compareTo(outra.getModelo());
+    public int compareTo(Roupas outro) {
+        return this.getModelo().compareTo(outro.getModelo());
     }
 
     Roupas() {
