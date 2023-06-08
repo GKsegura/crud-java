@@ -300,6 +300,7 @@ public class Crud {
                 System.out.println("Arquivo não existe!");
                 return;
             }
+            listaligada.clear();
             Scanner sc = new Scanner(arquivo);
             sc.useDelimiter("\\s*,\\s*|\\R");
             while (sc.hasNext()) {
@@ -323,6 +324,7 @@ public class Crud {
                 System.out
                         .println("Lendo: '" + xid + " " + xmodelo + " " + xmarca + " " + xtamanho + " " + xpreco + "'");
             } /// while
+              // mensagem("Foram lidos " + listaligada.size() + " roupas");
             mensagem("Pressione <enter>...");
             sc.close();
         } catch (FileNotFoundException e) {
